@@ -1,0 +1,388 @@
+{
+  "components": [
+    {
+      "name": "config",
+      "display_name": null,
+      "created_at": "2022-10-27T14:14:04.493Z",
+      "updated_at": "2022-10-27T14:18:11.775Z",
+      "id": 3048069,
+      "schema": {
+        "title": {
+          "type": "text",
+          "display_name": "Title",
+          "required": true,
+          "description": "Title of the website"
+        },
+        "title_position": {
+          "type": "option",
+          "use_uuid": true,
+          "options": [
+            {
+              "_uid": "66f9733b-9e04-4e5d-98de-5d20838d29c9",
+              "name": "Suffix",
+              "value": "suffix"
+            },
+            {
+              "_uid": "e6efb264-951f-4253-8177-aa6b0879c835",
+              "value": "prefix",
+              "name": "Prefix"
+            }
+          ],
+          "description": "Where the title should be positioned compared to the page title",
+          "required": true,
+          "display_name": "Title position"
+        },
+        "theme": {
+          "type": "option",
+          "use_uuid": true,
+          "options": [
+            {
+              "_uid": "68a29a17-c441-43ff-bcf6-8fd5f97157d7",
+              "name": "Light",
+              "value": "light"
+            },
+            {
+              "_uid": "6b1f2cfd-4e69-4af8-b79d-065b29948ef1",
+              "value": "dark",
+              "name": "Dark"
+            },
+            {
+              "_uid": "d66e0b1e-e170-4a3a-aa17-316a813633c6",
+              "value": "cupcake",
+              "name": "Cupcake"
+            },
+            {
+              "_uid": "1fc78e25-09d0-4ad0-bc6f-0ee57198ac95",
+              "value": "bumblebee",
+              "name": "Bumblebee"
+            },
+            {
+              "_uid": "4d91c908-0109-4c34-b630-58b20dc19da5",
+              "value": "emerald",
+              "name": "Emerald"
+            },
+            {
+              "_uid": "b48f6deb-f591-4cba-81ea-b4df3460cad9",
+              "value": "corporate",
+              "name": "Corporate"
+            },
+            {
+              "_uid": "5e757ada-a719-4750-bce6-0d049cfc8cf9",
+              "value": "synthwave",
+              "name": "Synthwave"
+            },
+            {
+              "_uid": "a9d4cc8c-fedd-49d7-bba7-aee9a462d709",
+              "value": "retro",
+              "name": "Retro"
+            },
+            {
+              "_uid": "00b51094-d4b1-4502-ade5-609b07d26c79",
+              "value": "cyberpunk",
+              "name": "Cyberpunk"
+            },
+            {
+              "_uid": "f86dfc34-c85b-4cc1-b597-8f6c08d4b229",
+              "value": "cmyk",
+              "name": "CMYK"
+            },
+            {
+              "_uid": "62a182c7-a3a2-4ddf-8e88-0e565684e858",
+              "value": "valentine",
+              "name": "Valentine"
+            },
+            {
+              "_uid": "ae9ca2d9-8a69-4fe2-ab22-0325c932a856",
+              "value": "halloween",
+              "name": "Halloween"
+            },
+            {
+              "_uid": "19f2d5a6-7e3c-47c5-93f9-033c49206ba0",
+              "value": "garden",
+              "name": "Garden"
+            },
+            {
+              "_uid": "2f680fb8-462b-4e2f-a0af-60fb9252931a",
+              "value": "forest",
+              "name": "Forest"
+            },
+            {
+              "_uid": "4956fe62-6094-4b12-be2f-40bc90cd8c4a",
+              "value": "aqua",
+              "name": "Aqua"
+            },
+            {
+              "_uid": "ee55a161-e086-46a6-85b5-b90596c2907c",
+              "value": "lofi",
+              "name": "Lofi"
+            },
+            {
+              "_uid": "0539001f-c1ad-4074-99ac-4d16848e24c6",
+              "value": "pastel",
+              "name": "Pastel"
+            },
+            {
+              "_uid": "8d38b92e-f268-4880-bc0c-e56338a507a1",
+              "value": "fantasy",
+              "name": "Fantasy"
+            },
+            {
+              "_uid": "bdef42b2-52cc-4c13-bd95-49a98fa2beb6",
+              "value": "wireframe",
+              "name": "Wireframe"
+            },
+            {
+              "_uid": "2bce9d23-de81-4eb1-87b5-a3d200d94afb",
+              "value": "black",
+              "name": "Black"
+            },
+            {
+              "_uid": "cb64b331-cb7b-4d40-acf1-b195b4e10c03",
+              "value": "luxury",
+              "name": "Luxury"
+            },
+            {
+              "_uid": "0c2a5ff9-3a59-4430-90b4-7ada469b1f28",
+              "value": "dracula",
+              "name": "Dracula"
+            },
+            {
+              "_uid": "82b9c99a-098d-4e8d-9076-ea5835856e94",
+              "value": "autumn",
+              "name": "Autumn"
+            },
+            {
+              "_uid": "3b1196b8-afac-4547-948f-42916f8d57bb",
+              "value": "business",
+              "name": "Business"
+            },
+            {
+              "_uid": "652f9463-609a-4537-9bdd-e38d393d4f46",
+              "value": "acid",
+              "name": "Acid"
+            },
+            {
+              "_uid": "aaf53ccc-05b1-49b1-aa5e-a694fc19aa6b",
+              "value": "lemonade",
+              "name": "Lemonade"
+            },
+            {
+              "_uid": "6777722c-24d9-402e-af1c-b1c42ad60390",
+              "value": "night",
+              "name": "Night"
+            },
+            {
+              "_uid": "3c9e1528-aa7b-4a45-a2f6-02a3727c8409",
+              "value": "coffee",
+              "name": "Coffee"
+            },
+            {
+              "_uid": "8468edbb-b86e-4997-954f-1ef6f921d703",
+              "value": "winter",
+              "name": "Winter"
+            },
+            {
+              "_uid": "5f2f3139-2ec7-47ac-96e1-5b17cf623792",
+              "value": "",
+              "name": ""
+            }
+          ],
+          "default_value": "dark",
+          "required": true,
+          "display_name": "Theme",
+          "description": "The theme of the website"
+        }
+      },
+      "image": null,
+      "preview_field": null,
+      "is_root": true,
+      "preview_tmpl": null,
+      "is_nestable": false,
+      "all_presets": [],
+      "preset_id": null,
+      "real_name": "config",
+      "component_group_uuid": "6d3d6143-4479-435f-9773-ca655f173d7f",
+      "color": null,
+      "icon": null,
+      "component_group_name": "Configuration"
+    },
+    {
+      "name": "hero",
+      "display_name": "Hero",
+      "created_at": "2022-10-27T11:43:52.598Z",
+      "updated_at": "2022-10-27T12:23:11.278Z",
+      "id": 3047319,
+      "schema": {
+        "title": {
+          "type": "text",
+          "pos": 0,
+          "max_length": "",
+          "required": true,
+          "display_name": "Title",
+          "default_value": "",
+          "description": "The title of the hero"
+        },
+        "description": {
+          "type": "richtext",
+          "pos": 1,
+          "required": true,
+          "description": "The description text for the hero",
+          "display_name": "Hero"
+        },
+        "enable_button": {
+          "type": "boolean",
+          "pos": 2,
+          "display_name": "Enable CTA",
+          "default_value": "Wether to enable the CTA for the hero",
+          "required": false
+        },
+        "button_text": {
+          "type": "text",
+          "pos": 3,
+          "max_length": "",
+          "regex": "",
+          "description": "Text for the CTA button",
+          "display_name": "CTA Text",
+          "default_value": "The text to display on the CTA"
+        },
+        "button_link": {
+          "type": "multilink",
+          "pos": 4,
+          "default_value": "",
+          "display_name": "CTA Link",
+          "link_scope": "",
+          "description": "The link for the CTA to redirect to"
+        }
+      },
+      "image": null,
+      "preview_field": null,
+      "is_root": false,
+      "preview_tmpl": "",
+      "is_nestable": true,
+      "all_presets": [],
+      "preset_id": null,
+      "real_name": "Hero",
+      "component_group_uuid": "0c71c4ae-3160-4b02-aba2-f2a15d61a700",
+      "color": null,
+      "icon": "block-wallet",
+      "component_group_name": "Components"
+    },
+    {
+      "name": "main_navigation",
+      "display_name": "Header Navigation",
+      "created_at": "2022-10-27T12:20:46.544Z",
+      "updated_at": "2022-10-27T12:29:09.243Z",
+      "id": 3047656,
+      "schema": {
+        "logo": {
+          "type": "asset",
+          "filetypes": [
+            "images"
+          ],
+          "allow_external_url": true,
+          "required": true,
+          "display_name": "Logo",
+          "description": "The logo to show in the main navigation"
+        },
+        "links": {
+          "type": "bloks",
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "menu_link"
+          ],
+          "required": true,
+          "description": "The links to display in the main navigation"
+        }
+      },
+      "image": null,
+      "preview_field": null,
+      "is_root": true,
+      "preview_tmpl": null,
+      "is_nestable": false,
+      "all_presets": [],
+      "preset_id": null,
+      "real_name": "Header Navigation",
+      "component_group_uuid": "6d3d6143-4479-435f-9773-ca655f173d7f",
+      "color": null,
+      "icon": "block-arrow-pointer",
+      "component_group_name": "Configuration"
+    },
+    {
+      "name": "menu_link",
+      "display_name": "Menu Link",
+      "created_at": "2022-10-27T12:27:44.430Z",
+      "updated_at": "2022-10-27T12:28:35.124Z",
+      "id": 3047663,
+      "schema": {
+        "label": {
+          "type": "text",
+          "required": true,
+          "display_name": "Label",
+          "description": "The label of the link to display"
+        },
+        "link": {
+          "type": "multilink",
+          "display_name": "Link",
+          "description": "The link to redirect to",
+          "required": true
+        }
+      },
+      "image": null,
+      "preview_field": null,
+      "is_root": false,
+      "preview_tmpl": null,
+      "is_nestable": true,
+      "all_presets": [],
+      "preset_id": null,
+      "real_name": "Menu Link",
+      "component_group_uuid": null,
+      "color": "#1b243f",
+      "icon": "block-arrow-pointer"
+    },
+    {
+      "name": "page",
+      "display_name": "Page",
+      "created_at": "2022-11-03T20:49:01.127Z",
+      "updated_at": "2022-11-03T20:52:14.425Z",
+      "id": 3078249,
+      "schema": {
+        "title": {
+          "type": "text",
+          "display_name": "Title",
+          "required": true
+        },
+        "content": {
+          "type": "bloks",
+          "display_name": "Content"
+        },
+        "tab-14f70efc-ae34-4756-927f-10a6b4087e47": {
+          "display_name": "SEO",
+          "keys": [
+            "meta_tags"
+          ],
+          "pos": 0,
+          "type": "tab"
+        },
+        "meta_tags": {
+          "type": "custom",
+          "display_name": "Meta Tags",
+          "field_type": "seo-metatags",
+          "options": []
+        }
+      },
+      "image": null,
+      "preview_field": null,
+      "is_root": true,
+      "preview_tmpl": null,
+      "is_nestable": false,
+      "all_presets": [],
+      "preset_id": null,
+      "real_name": "Page",
+      "component_group_uuid": "bd54f67a-3713-45bd-8a13-b74d5d289ea8",
+      "color": null,
+      "icon": null,
+      "component_group_name": "Pages"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+version: "2"
+
+services:
+  web:
+    image: node:18
+    command: yarn docker:start
+    tty: true
+    working_dir: /opt/app
+    env_file:
+      - .env
+    volumes:
+      - ./:/opt/app
+    ports:
+      - "$EXPOSED_NEXT_PORT:3000"
+      - "$EXPOSED_HTTPS_PROXY_PORT:3010"
