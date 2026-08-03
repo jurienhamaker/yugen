@@ -88,6 +88,13 @@ postgresql:
   auth:
     username: kazu
     password: ""
+    # Set to the name of a pre-existing k8s Secret that holds the Postgres password
+    # (Bitnami-compatible: mirrors postgresql.auth.existingSecret).
+    # When set, DATABASE_URL is composed at runtime via env var expansion and the
+    # plaintext password above is not used.
+    existingSecret: ""
+    secretKeys:
+      userPasswordKey: password  # key within existingSecret (Bitnami default)
     database: kazu
   primary:
     persistence:

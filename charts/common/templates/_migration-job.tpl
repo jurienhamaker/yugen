@@ -35,6 +35,11 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ include "common.secretName" . }}
+          {{- $dbEnv := include "common.dbEnv" . | trim }}
+          {{- if $dbEnv }}
+          env:
+            {{- $dbEnv | nindent 12 }}
+          {{- end }}
           {{- with .Values.resources }}
           resources:
             {{- toYaml . | nindent 12 }}

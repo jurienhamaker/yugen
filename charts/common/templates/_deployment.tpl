@@ -52,9 +52,15 @@ spec:
                 name: {{ include "common.fullname" . }}-config
             - secretRef:
                 name: {{ include "common.secretName" . }}
-          {{- with .Values.extraEnv }}
+          {{- $dbEnv := include "common.dbEnv" . | trim }}
+          {{- if or $dbEnv .Values.extraEnv }}
           env:
+            {{- if $dbEnv }}
+            {{- $dbEnv | nindent 12 }}
+            {{- end }}
+            {{- with .Values.extraEnv }}
             {{- toYaml . | nindent 12 }}
+            {{- end }}
           {{- end }}
           {{- with .Values.resources }}
           resources:
