@@ -37,14 +37,14 @@ global:
   postgresql:
     auth:
       username: yugen
-      password: ""  # required: set at deploy time (must match postgresql.auth.password)
+      password: "" # required: set at deploy time (must match postgresql.auth.password)
       # Set to a pre-existing k8s Secret holding the Postgres password
       # (Bitnami-compatible: mirrors postgresql.auth.existingSecret).
       # When set, DATABASE_URL is composed at runtime via env var expansion for
       # all bots — the plaintext password above is not used for bot secrets.
       existingSecret: ""
       secretKeys:
-        userPasswordKey: password  # key within existingSecret (Bitnami default)
+        userPasswordKey: password # key within existingSecret (Bitnami default)
 
 # ---------------------------------------------------------------------------
 # Shared PostgreSQL instance
@@ -53,14 +53,7 @@ postgresql:
   enabled: true
   auth:
     username: yugen
-    password: ""     # required: set at deploy time (must match global.postgresql.auth.password)
-    # Set to a pre-existing k8s Secret holding the Postgres password
-    # (passed through to the Bitnami subchart so it reads its own password from
-    # the same secret). Must match global.postgresql.auth.existingSecret.
-    existingSecret: ""
-    secretKeys:
-      userPasswordKey: password  # key within existingSecret (Bitnami default)
-    database: hoshi  # initial DB created by Bitnami; remaining DBs via initdb script
+    database: kusari # initial DB created by Bitnami; remaining DBs via initdb script
   primary:
     persistence:
       enabled: true
