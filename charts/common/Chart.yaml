@@ -2,4 +2,4 @@ apiVersion: v2
 name: common
 description: Shared Helm library for Yugen bot charts
 type: library
-version: 0.1.15
+version: 0.1.16

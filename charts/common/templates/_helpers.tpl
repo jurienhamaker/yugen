@@ -53,28 +53,27 @@ Secret name: existingSecret when supplied, else the chart-managed secret.
 {{- end }}
 
 {{/*
-common.dbExistingSecret: name of the k8s Secret that holds the Postgres password,
-or empty when none is configured.
+common.dbPasswordSecretName: name of the k8s Secret that holds the Postgres password.
 
-Guard: when secrets.existingSecret is set the user owns the entire bot Secret
-(including DATABASE_URL) — return empty so no runtime env injection fires.
+For Bitnami-backed Postgres (sharedInfra or postgresql.enabled) this defaults to the
+auto-created secret (<release>-postgresql / <fullname>-postgresql) so no explicit
+existingSecret is required. Falls back to a user-supplied existingSecret if set.
 
-Priority mirrors common.databaseUrl:
-  global.sharedInfra  → global.postgresql.auth.existingSecret
-  postgresql.enabled  → postgresql.auth.existingSecret
+Priority:
+  global.sharedInfra  → global.postgresql.auth.existingSecret || "<release>-postgresql"
+  postgresql.enabled  → postgresql.auth.existingSecret        || "<fullname>-postgresql"
+  external            → empty (DATABASE_URL comes from secrets.DATABASE_URL in the Secret)
 */}}
-{{- define "common.dbExistingSecret" -}}
-{{- if .Values.secrets.existingSecret -}}
-{{- /* guard: user owns the full bot secret */ -}}
-{{- else if (.Values.global).sharedInfra -}}
-{{- dig "postgresql" "auth" "existingSecret" "" (.Values.global | default dict) -}}
+{{- define "common.dbPasswordSecretName" -}}
+{{- if (.Values.global).sharedInfra -}}
+{{- default (printf "%s-postgresql" .Release.Name) (dig "postgresql" "auth" "existingSecret" "" (.Values.global | default dict)) -}}
 {{- else if (.Values.postgresql).enabled -}}
-{{- dig "auth" "existingSecret" "" (.Values.postgresql | default dict) -}}
+{{- default (printf "%s-postgresql" (include "common.fullname" .)) (dig "auth" "existingSecret" "" (.Values.postgresql | default dict)) -}}
 {{- end -}}
 {{- end }}
 
 {{/*
-common.dbPasswordKey: the key inside the DB existingSecret that holds the password.
+common.dbPasswordKey: the key inside the DB password Secret that holds the password.
 Defaults to "password" — Bitnami's userPasswordKey default.
 */}}
 {{- define "common.dbPasswordKey" -}}
@@ -86,9 +85,9 @@ Defaults to "password" — Bitnami's userPasswordKey default.
 {{- end }}
 
 {{/*
-common.databaseUrlTemplate: like common.databaseUrl but with the literal
-$(DB_PASSWORD) placeholder instead of the actual password value.
-Only meaningful for tiers 1 & 2 (subchart-backed postgres).
+common.databaseUrlTemplate: DATABASE_URL with the literal $(DB_PASSWORD) placeholder.
+Used by common.dbEnv so k8s expands the password from the secretKeyRef at runtime.
+Only meaningful for Postgres-backed tiers (sharedInfra / postgresql.enabled).
 */}}
 {{- define "common.databaseUrlTemplate" -}}
 {{- if (.Values.global).sharedInfra -}}
@@ -99,13 +98,13 @@ Only meaningful for tiers 1 & 2 (subchart-backed postgres).
 {{- end }}
 
 {{/*
-common.dbEnv: renders the DB_PASSWORD secretKeyRef + DATABASE_URL $(VAR)-expansion
-env entries when a Postgres existingSecret is configured.
-Output is a YAML list fragment — nindent it into an env: block.
-Renders nothing when no existingSecret is in play.
+common.dbEnv: renders DB_PASSWORD (secretKeyRef) + DATABASE_URL ($(VAR) expansion)
+env entries for every Postgres-backed bot — sharedInfra and standalone postgresql.enabled.
+Output is a YAML list fragment; nindent it into an env: block.
+Renders nothing for external-DB bots (DATABASE_URL comes from the chart-managed Secret).
 */}}
 {{- define "common.dbEnv" -}}
-{{- $secret := include "common.dbExistingSecret" . }}
+{{- $secret := include "common.dbPasswordSecretName" . }}
 {{- if $secret }}
 - name: DB_PASSWORD
   valueFrom:
@@ -133,21 +132,16 @@ Priority mirrors common.databaseUrl.
 {{- end }}
 
 {{/*
-DATABASE_URL for bots backed by PostgreSQL.
-Priority: global.sharedInfra (umbrella) → postgresql.enabled (standalone) → secrets.DATABASE_URL (external).
-In sharedInfra mode the DB name is .Chart.Name (bot name == database name by convention).
-When a Postgres existingSecret is active (tiers 1 & 2) this returns empty so the
-chart-managed Secret omits DATABASE_URL — it is composed at runtime via common.dbEnv.
+DATABASE_URL for bots backed by an **external** Postgres only (no subchart).
+For sharedInfra and postgresql.enabled bots DATABASE_URL is composed at runtime
+via common.dbEnv (DB_PASSWORD secretKeyRef + $(VAR) expansion) and must NOT be
+baked into the chart-managed Secret — return empty for those tiers.
 */}}
 {{- define "common.databaseUrl" -}}
 {{- if (.Values.global).sharedInfra -}}
-{{- if not (include "common.dbExistingSecret" .) -}}
-{{- printf "postgres://%s:%s@%s-postgresql:5432/%s?sslmode=disable" .Values.global.postgresql.auth.username .Values.global.postgresql.auth.password .Release.Name .Chart.Name -}}
-{{- end -}}
+{{- /* runtime-composed via common.dbEnv */ -}}
 {{- else if (.Values.postgresql).enabled -}}
-{{- if not (include "common.dbExistingSecret" .) -}}
-{{- printf "postgres://%s:%s@%s-postgresql:5432/%s?sslmode=disable" .Values.postgresql.auth.username .Values.postgresql.auth.password (include "common.fullname" .) .Values.postgresql.auth.database -}}
-{{- end -}}
+{{- /* runtime-composed via common.dbEnv */ -}}
 {{- else -}}
 {{- .Values.secrets.DATABASE_URL -}}
 {{- end -}}
