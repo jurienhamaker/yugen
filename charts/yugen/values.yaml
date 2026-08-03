@@ -62,21 +62,16 @@ postgresql:
       scripts:
         # Creates a database for each bot that needs one (hoshi already created above).
         # Runs once on first init as the postgres superuser.
-        create-bot-databases.sh: |
+        00_init_database.sql: |
           #!/bin/bash
           export PGPASSWORD=$POSTGRES_POSTGRES_PASSWORD
           for DB in hoshi kusari koto hachimitsu; do
-            RESULT=$(psql -XtAc -U "postgres" "SELECT 1 FROM pg_database WHERE datname='$DB'")
-            if [ $RESULT = '1' ]
-            then
+            DB_EXISTS=$(psql -U postgres -tAc "SELECT 1 FROM pg_database WHERE datname='${DB}'")
+            if [ "${DB_EXISTS}" != "1" ]; then
                 echo "Database $DB already exists"
             else
                 echo "Database $DB does not exist"
-
-                psql -v ON_ERROR_STOP=0 --username "postgres" --dbname "postgres" \
-                  -c "CREATE DATABASE \"$DB\" OWNER \"$POSTGRES_USER\";"
-                psql -v ON_ERROR_STOP=0 --username "postgres" --dbname "$DB" \
-                  -c "GRANT ALL ON SCHEMA public TO \"$POSTGRES_USER\";"
+                createdb -U postgres ${DB_NAME} -O ${POSTGRES_USER}
             fi
           done
 
