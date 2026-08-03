@@ -118,6 +118,21 @@ Renders nothing when no existingSecret is in play.
 {{- end }}
 
 {{/*
+common.dbHost: hostname of the Postgres Service (no port).
+Used by the wait-db init container to gate on DB readiness.
+Returns empty for external-DB bots (DATABASE_URL from secrets) — those skip
+the wait loop and assume the DB is already reachable.
+Priority mirrors common.databaseUrl.
+*/}}
+{{- define "common.dbHost" -}}
+{{- if (.Values.global).sharedInfra -}}
+{{- printf "%s-postgresql" .Release.Name -}}
+{{- else if (.Values.postgresql).enabled -}}
+{{- printf "%s-postgresql" (include "common.fullname" .) -}}
+{{- end -}}
+{{- end }}
+
+{{/*
 DATABASE_URL for bots backed by PostgreSQL.
 Priority: global.sharedInfra (umbrella) → postgresql.enabled (standalone) → secrets.DATABASE_URL (external).
 In sharedInfra mode the DB name is .Chart.Name (bot name == database name by convention).
