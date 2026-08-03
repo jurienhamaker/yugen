@@ -24,6 +24,16 @@ global:
   # postgresql / valkey instances deployed by this umbrella, rather than from
   # per-bot subcharts.
   sharedInfra: true
+
+  # Shared bot config — propagated to every bot's ConfigMap automatically.
+  # A bot overrides any value by setting a non-empty entry in its own
+  # <bot>.config block.
+  config:
+    DISCORD_DEVELOPMENT_GUILD_ID: ""
+    OWNER_IDS: ""
+    OWNER_ID: ""
+    DISCORD_LOGS_REPORT_CHANNEL_ID: ""
+    DISCORD_VOTE_REPORT_CHANNEL_ID: ""
   postgresql:
     auth:
       username: yugen

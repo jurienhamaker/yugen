@@ -2,11 +2,11 @@ apiVersion: v2
 name: hachimitsu
 description: Helm chart for the hachimitsu Discord bot
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "main"
 dependencies:
   - name: common
-    version: "0.1.1"
+    version: "0.1.2"
     repository: "file://../common"
   - name: postgresql
     version: "18.8.5"

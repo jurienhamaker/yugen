@@ -51,7 +51,7 @@ config:
   YUGEN_DEBUG: "false"
   API_LISTEN_HOST: "0.0.0.0"
   API_LISTEN_PORT: "3000"
-  SYNC_COMMANDS: "false"
+  SYNC_COMMANDS: "true"
   DISCORD_APP_ID: ""
   DISCORD_DEVELOPMENT_GUILD_ID: ""
   OWNER_IDS: ""
@@ -105,7 +105,7 @@ postgresql:
     # plaintext password above is not used.
     existingSecret: ""
     secretKeys:
-      userPasswordKey: password  # key within existingSecret (Bitnami default)
+      userPasswordKey: password # key within existingSecret (Bitnami default)
     database: kusari
   primary:
     persistence:
