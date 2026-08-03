@@ -66,10 +66,10 @@ postgresql:
           #!/bin/bash
           set -e
           for DB in kazu kusari koto hachimitsu; do
-            psql -v ON_ERROR_STOP=1 --username "postgres" --dbname "postgres" \
-              -c "CREATE DATABASE \"$DB\" OWNER \"$POSTGRESQL_USERNAME\";"
-            psql -v ON_ERROR_STOP=1 --username "postgres" --dbname "$DB" \
-              -c "GRANT ALL ON SCHEMA public TO \"$POSTGRESQL_USERNAME\";"
+            psql -v ON_ERROR_STOP=1 --username "postgres" --password $POSTGRES_POSTGRES_PASSWORD --dbname "postgres" \
+              -c "CREATE DATABASE \"$DB\" OWNER \"$POSTGRES_USER\";"
+            psql -v ON_ERROR_STOP=1 --username "postgres" --password $POSTGRES_POSTGRES_PASSWORD --dbname "$DB" \
+              -c "GRANT ALL ON SCHEMA public TO \"$POSTGRES_USER\";"
           done
 
 # ---------------------------------------------------------------------------
