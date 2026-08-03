@@ -2,11 +2,11 @@ apiVersion: v2
 name: hoshi
 description: Helm chart for the hoshi Discord starboard bot
 type: application
-version: 0.1.13
+version: 0.1.14
 appVersion: "main"
 dependencies:
   - name: common
-    version: "0.1.13"
+    version: "0.1.14"
     repository: "file://../common"
   - name: postgresql
     version: "18.8.5"

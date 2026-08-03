@@ -37,7 +37,7 @@ Usage in _deployment.tpl:
   command:
     - /bin/sh
     - -c
-    - atlas migrate apply --env production
+    - atlas migrate apply --env production --url {{ $dbEnv }}
   envFrom:
     - secretRef:
         name: {{ include "common.secretName" . }}
