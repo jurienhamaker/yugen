@@ -64,12 +64,11 @@ postgresql:
         # Runs once on first init as the postgres superuser.
         create-bot-databases.sh: |
           #!/bin/bash
-          set -e
           export PGPASSWORD=$POSTGRES_POSTGRES_PASSWORD
           for DB in hoshi kusari koto hachimitsu; do
-            psql --username "postgres" --dbname "postgres" \
+            psql -v ON_ERROR_STOP=0 --username "postgres" --dbname "postgres" \
               -c "CREATE DATABASE \"$DB\" OWNER \"$POSTGRES_USER\";"
-            psql --username "postgres" --dbname "$DB" \
+            psql -v ON_ERROR_STOP=0 --username "postgres" --dbname "$DB" \
               -c "GRANT ALL ON SCHEMA public TO \"$POSTGRES_USER\";"
           done
 
