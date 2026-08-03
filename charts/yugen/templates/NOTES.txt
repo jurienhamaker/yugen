@@ -1,0 +1,24 @@
+Yugen bot fleet deployed!
+
+Enabled bots:
+{{- if .Values.hoshi.enabled }}
+  - hoshi (starboard)
+{{- end }}
+{{- if .Values.iro.enabled }}
+  - iro (hex colors)
+{{- end }}
+{{- if .Values.kazu.enabled }}
+  - kazu (counting)
+{{- end }}
+{{- if .Values.kusari.enabled }}
+  - kusari (word chain)
+{{- end }}
+{{- if .Values.koto.enabled }}
+  - koto (word guessing)
+{{- end }}
+{{- if .Values.hachimitsu.enabled }}
+  - hachimitsu
+{{- end }}
+
+Check pod status:
+  kubectl get pods -n {{ .Release.Namespace }} -l app.kubernetes.io/instance={{ .Release.Name }}

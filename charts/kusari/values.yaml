@@ -1,0 +1,113 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/yugen-bot/kusari
+  tag: ""
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+
+# Overrides the inline-migrate ENTRYPOINT baked into the image.
+# Migrations run via the pre-upgrade hook Job instead.
+command:
+  - /opt/app/kusari
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: kusari.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+resources: {}
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# Non-sensitive environment variables → rendered into a ConfigMap
+config:
+  ENV: "production"
+  SHARD: "false"
+  YUGEN_LOG_LEVEL: "info"
+  YUGEN_DEBUG: "false"
+  API_LISTEN_HOST: "0.0.0.0"
+  API_LISTEN_PORT: "3000"
+  SYNC_COMMANDS: "false"
+  DISCORD_APP_ID: ""
+  DISCORD_DEVELOPMENT_GUILD_ID: ""
+  OWNER_IDS: ""
+  OWNER_ID: ""
+  DISCORD_LOGS_REPORT_CHANNEL_ID: ""
+  DISCORD_VOTE_REPORT_CHANNEL_ID: ""
+  TOP_GG_SYNC: "false"
+  TOP_GG_VOTE_LINK: ""
+  DISCORDBOTLIST_SYNC: "false"
+  DISCORDBOTLIST_VOTE_LINK: ""
+  INVITE_LINK: ""
+  SENTRY_ENVIRONMENT: ""
+  SENTRY_TRACES_SAMPLE_RATE: "0.0"
+  SENTRY_DEBUG: "false"
+  LOKI_HOST: ""
+  LOKI_USERNAME: ""
+
+# Sensitive environment variables → rendered into a Secret
+# Set existingSecret to skip chart-managed secret creation.
+secrets:
+  existingSecret: ""
+  DISCORD_TOKEN: ""
+  WEBHOOK_AUTHORIZATION_TOKEN: ""
+  TOP_GG_TOKEN: ""
+  DISCORDBOTLIST_TOKEN: ""
+  LOKI_PASSWORD: ""
+  SENTRY_DSN: ""
+  WIKTIONARY_USERNAME: ""
+  WIKTIONARY_PASSWORD: ""
+  # DATABASE_URL only used when postgresql.enabled is false.
+  DATABASE_URL: ""
+  # VALKEY_URL only used when valkey.enabled is false.
+  VALKEY_URL: ""
+
+extraEnv: []
+
+migrations:
+  enabled: true
+
+postgresql:
+  enabled: true
+  auth:
+    username: kusari
+    password: ""
+    database: kusari
+  primary:
+    persistence:
+      enabled: true
+      size: 8Gi
+
+valkey:
+  enabled: true
+  auth:
+    enabled: false
+  architecture: standalone
+  primary:
+    persistence:
+      enabled: true
+      size: 2Gi

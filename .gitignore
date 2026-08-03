@@ -6,3 +6,6 @@ dist/
 /.claude/worktrees
 /.vite/deps
 /apps/koto/scrape
+
+/charts/**/charts/*.tgz
+/charts/**/Chart.lock

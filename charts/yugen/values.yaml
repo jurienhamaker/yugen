@@ -1,0 +1,175 @@
+# Yugen umbrella chart values.
+#
+# Shared infrastructure: one PostgreSQL instance and one Valkey instance serve
+# all bots. Each bot chart picks up global.sharedInfra: true and routes its
+# DATABASE_URL / VALKEY_URL to the shared services automatically.
+#
+# Required at deploy time:
+#   --set global.postgresql.auth.password=<pass>
+#   --set postgresql.auth.password=<pass>     (must match the above)
+#   --set <bot>.secrets.DISCORD_TOKEN=<token> (for each enabled bot)
+#
+# To disable shared infra and give each bot its own database instead:
+#   --set global.sharedInfra=false
+#   --set postgresql.enabled=false
+#   --set valkey.enabled=false
+#   --set hoshi.postgresql.enabled=true --set hoshi.postgresql.auth.password=...
+#   (etc. for each bot)
+
+# ---------------------------------------------------------------------------
+# Global values — propagated to all subcharts automatically by Helm.
+# ---------------------------------------------------------------------------
+global:
+  # Signals bot charts to derive DATABASE_URL / VALKEY_URL from the shared
+  # postgresql / valkey instances deployed by this umbrella, rather than from
+  # per-bot subcharts.
+  sharedInfra: true
+  postgresql:
+    auth:
+      username: yugen
+      password: ""  # required: set at deploy time (must match postgresql.auth.password)
+
+# ---------------------------------------------------------------------------
+# Shared PostgreSQL instance
+# ---------------------------------------------------------------------------
+postgresql:
+  enabled: true
+  auth:
+    username: yugen
+    password: ""     # required: set at deploy time (must match global.postgresql.auth.password)
+    database: hoshi  # initial DB created by Bitnami; remaining DBs via initdb script
+  primary:
+    persistence:
+      enabled: true
+      size: 20Gi
+    initdb:
+      scripts:
+        # Creates a database for each bot that needs one (hoshi already created above).
+        # Runs once on first init as the postgres superuser.
+        create-bot-databases.sh: |
+          #!/bin/bash
+          set -e
+          for DB in kazu kusari koto hachimitsu; do
+            psql -v ON_ERROR_STOP=1 --username "postgres" --dbname "postgres" \
+              -c "CREATE DATABASE \"$DB\" OWNER \"$POSTGRESQL_USERNAME\";"
+            psql -v ON_ERROR_STOP=1 --username "postgres" --dbname "$DB" \
+              -c "GRANT ALL ON SCHEMA public TO \"$POSTGRESQL_USERNAME\";"
+          done
+
+# ---------------------------------------------------------------------------
+# Shared Valkey instance (used by kusari for dictionary caching)
+# ---------------------------------------------------------------------------
+valkey:
+  enabled: true
+  auth:
+    enabled: false
+  architecture: standalone
+  primary:
+    persistence:
+      enabled: true
+      size: 2Gi
+
+# ---------------------------------------------------------------------------
+# Per-bot configuration
+# ---------------------------------------------------------------------------
+
+hoshi:
+  enabled: true
+  image:
+    repository: ghcr.io/yugen-bot/hoshi
+    tag: ""
+  # Disable per-bot postgres — shared instance used via global.sharedInfra
+  postgresql:
+    enabled: false
+  secrets:
+    existingSecret: ""
+    DISCORD_TOKEN: ""
+    WEBHOOK_AUTHORIZATION_TOKEN: ""
+    TOP_GG_TOKEN: ""
+    DISCORDBOTLIST_TOKEN: ""
+    LOKI_PASSWORD: ""
+    SENTRY_DSN: ""
+
+iro:
+  enabled: true
+  image:
+    repository: ghcr.io/yugen-bot/iro
+    tag: ""
+  # iro is stateless — no database
+  secrets:
+    existingSecret: ""
+    DISCORD_TOKEN: ""
+    WEBHOOK_AUTHORIZATION_TOKEN: ""
+    TOP_GG_TOKEN: ""
+    DISCORDBOTLIST_TOKEN: ""
+    LOKI_PASSWORD: ""
+    SENTRY_DSN: ""
+
+kazu:
+  enabled: true
+  image:
+    repository: ghcr.io/yugen-bot/kazu
+    tag: ""
+  postgresql:
+    enabled: false
+  secrets:
+    existingSecret: ""
+    DISCORD_TOKEN: ""
+    WEBHOOK_AUTHORIZATION_TOKEN: ""
+    TOP_GG_TOKEN: ""
+    DISCORDBOTLIST_TOKEN: ""
+    LOKI_PASSWORD: ""
+    SENTRY_DSN: ""
+
+kusari:
+  enabled: true
+  image:
+    repository: ghcr.io/yugen-bot/kusari
+    tag: ""
+  postgresql:
+    enabled: false
+  # Disable per-bot valkey — shared instance used via global.sharedInfra
+  valkey:
+    enabled: false
+  secrets:
+    existingSecret: ""
+    DISCORD_TOKEN: ""
+    WEBHOOK_AUTHORIZATION_TOKEN: ""
+    TOP_GG_TOKEN: ""
+    DISCORDBOTLIST_TOKEN: ""
+    LOKI_PASSWORD: ""
+    SENTRY_DSN: ""
+    WIKTIONARY_USERNAME: ""
+    WIKTIONARY_PASSWORD: ""
+
+koto:
+  enabled: true
+  image:
+    repository: ghcr.io/yugen-bot/koto
+    tag: ""
+  postgresql:
+    enabled: false
+  secrets:
+    existingSecret: ""
+    DISCORD_TOKEN: ""
+    WEBHOOK_AUTHORIZATION_TOKEN: ""
+    TOP_GG_TOKEN: ""
+    DISCORDBOTLIST_TOKEN: ""
+    LOKI_PASSWORD: ""
+    SENTRY_DSN: ""
+
+hachimitsu:
+  enabled: true
+  image:
+    repository: ghcr.io/yugen-bot/hachimitsu
+    tag: ""
+  postgresql:
+    enabled: false
+  secrets:
+    existingSecret: ""
+    DISCORD_TOKEN: ""
+    WEBHOOK_AUTHORIZATION_TOKEN: ""
+    TOP_GG_TOKEN: ""
+    DISCORDBOTLIST_TOKEN: ""
+    LOKI_PASSWORD: ""
+    SENTRY_DSN: ""

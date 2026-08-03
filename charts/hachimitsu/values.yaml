@@ -1,0 +1,95 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/yugen-bot/hachimitsu
+  tag: ""
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+
+# Overrides the inline-migrate ENTRYPOINT baked into the image.
+# Migrations run via the pre-upgrade hook Job instead.
+command:
+  - /opt/app/hachimitsu
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: hachimitsu.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+resources: {}
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+config:
+  ENV: "production"
+  SHARD: "false"
+  YUGEN_LOG_LEVEL: "info"
+  YUGEN_DEBUG: "false"
+  API_LISTEN_HOST: "0.0.0.0"
+  API_LISTEN_PORT: "3000"
+  SYNC_COMMANDS: "false"
+  DISCORD_APP_ID: ""
+  DISCORD_DEVELOPMENT_GUILD_ID: ""
+  OWNER_IDS: ""
+  OWNER_ID: ""
+  DISCORD_LOGS_REPORT_CHANNEL_ID: ""
+  DISCORD_VOTE_REPORT_CHANNEL_ID: ""
+  TOP_GG_SYNC: "false"
+  TOP_GG_VOTE_LINK: ""
+  DISCORDBOTLIST_SYNC: "false"
+  DISCORDBOTLIST_VOTE_LINK: ""
+  INVITE_LINK: ""
+  SENTRY_ENVIRONMENT: ""
+  SENTRY_TRACES_SAMPLE_RATE: "0.0"
+  SENTRY_DEBUG: "false"
+  LOKI_HOST: ""
+  LOKI_USERNAME: ""
+
+secrets:
+  existingSecret: ""
+  DISCORD_TOKEN: ""
+  WEBHOOK_AUTHORIZATION_TOKEN: ""
+  TOP_GG_TOKEN: ""
+  DISCORDBOTLIST_TOKEN: ""
+  LOKI_PASSWORD: ""
+  SENTRY_DSN: ""
+  DATABASE_URL: ""
+
+extraEnv: []
+
+migrations:
+  enabled: true
+
+postgresql:
+  enabled: true
+  auth:
+    username: hachimitsu
+    password: ""
+    database: hachimitsu
+  primary:
+    persistence:
+      enabled: true
+      size: 8Gi
