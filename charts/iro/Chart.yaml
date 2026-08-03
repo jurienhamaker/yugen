@@ -2,9 +2,9 @@ apiVersion: v2
 name: iro
 description: Helm chart for the iro Discord hex-color bot (stateless)
 type: application
-version: 0.1.10
+version: 0.1.11
 appVersion: "main"
 dependencies:
   - name: common
-    version: "0.1.10"
+    version: "0.1.11"
     repository: "file://../common"

@@ -66,7 +66,7 @@ postgresql:
           #!/bin/bash
           export PGPASSWORD=$POSTGRES_POSTGRES_PASSWORD
           for DB in hoshi kusari koto hachimitsu; do
-            if [ "$( psql -XtAc -U "postgres" "SELECT 1 FROM pg_database WHERE datname='$DB'" )" = '1' ]
+            if [ "$( PGPASSWORD=$POSTGRES_POSTGRES_PASSWORD psql -XtAc -U "postgres" "SELECT 1 FROM pg_database WHERE datname='$DB'" )" = '1' ]
             then
                 echo "Database $DB already exists"
             else
