@@ -2,6 +2,15 @@ apiVersion: v1
 entries:
   common:
   - apiVersion: v2
+    created: "2026-08-03T20:52:51.473909797Z"
+    description: Shared Helm library for Yugen bot charts
+    digest: 26d281fb228d48e3ad089d568a0fad6a1ee33138c520008f693bfd13d64b53c6
+    name: common
+    type: library
+    urls:
+    - https://github.com/yugen-bot/bots/releases/download/common-0.1.11/common-0.1.11.tgz
+    version: 0.1.11
+  - apiVersion: v2
     created: "2026-08-03T20:48:07.056252104Z"
     description: Shared Helm library for Yugen bot charts
     digest: f717eb7cd9849a62db3aa441e4f5af931d64f427e9029eaeb35e8bb315f24f14
@@ -92,6 +101,24 @@ entries:
     - https://github.com/yugen-bot/bots/releases/download/common-0.1.0/common-0.1.0.tgz
     version: 0.1.0
   hachimitsu:
+  - apiVersion: v2
+    appVersion: main
+    created: "2026-08-03T20:52:51.637637771Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.11
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 18.8.5
+    description: Helm chart for the hachimitsu Discord bot
+    digest: 1570dde9ea3bf95f0ecfdb2836642fe2fcf28369b5217de54f8325fc5096563a
+    name: hachimitsu
+    type: application
+    urls:
+    - https://github.com/yugen-bot/bots/releases/download/hachimitsu-0.1.11/hachimitsu-0.1.11.tgz
+    version: 0.1.11
   - apiVersion: v2
     appVersion: main
     created: "2026-08-03T20:48:07.219204184Z"
@@ -275,6 +302,24 @@ entries:
   hoshi:
   - apiVersion: v2
     appVersion: main
+    created: "2026-08-03T20:52:51.804753909Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.11
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 18.8.5
+    description: Helm chart for the hoshi Discord starboard bot
+    digest: 0021e8ac5f476c6dbf8bc1b270dfd6c5c6b5deadcc66b3384c822a0061ffe431
+    name: hoshi
+    type: application
+    urls:
+    - https://github.com/yugen-bot/bots/releases/download/hoshi-0.1.11/hoshi-0.1.11.tgz
+    version: 0.1.11
+  - apiVersion: v2
+    appVersion: main
     created: "2026-08-03T20:48:07.352912356Z"
     dependencies:
     - name: common
@@ -456,6 +501,20 @@ entries:
   iro:
   - apiVersion: v2
     appVersion: main
+    created: "2026-08-03T20:52:51.927004602Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.11
+    description: Helm chart for the iro Discord hex-color bot (stateless)
+    digest: 75173826ef2e229cf533063cc4f5e9212cbdf8f31554b424249d865b0a6b9a17
+    name: iro
+    type: application
+    urls:
+    - https://github.com/yugen-bot/bots/releases/download/iro-0.1.11/iro-0.1.11.tgz
+    version: 0.1.11
+  - apiVersion: v2
+    appVersion: main
     created: "2026-08-03T20:48:07.502591547Z"
     dependencies:
     - name: common
@@ -595,6 +654,24 @@ entries:
     - https://github.com/yugen-bot/bots/releases/download/iro-0.1.0/iro-0.1.0.tgz
     version: 0.1.0
   kazu:
+  - apiVersion: v2
+    appVersion: main
+    created: "2026-08-03T20:52:52.11280246Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.11
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 18.8.5
+    description: Helm chart for the kazu Discord collaborative-counting bot
+    digest: 04484abb7ed3fbcc5ae1740b39f0665a5e1519356e98dee4dbf19cedcd714dbc
+    name: kazu
+    type: application
+    urls:
+    - https://github.com/yugen-bot/bots/releases/download/kazu-0.1.11/kazu-0.1.11.tgz
+    version: 0.1.11
   - apiVersion: v2
     appVersion: main
     created: "2026-08-03T20:48:07.636054869Z"
@@ -778,6 +855,24 @@ entries:
   koto:
   - apiVersion: v2
     appVersion: main
+    created: "2026-08-03T20:52:52.246544306Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.11
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 18.8.5
+    description: Helm chart for the koto Discord word-guessing bot
+    digest: 10143430565d716c20d3a6f0f1760de56248acdaec50500d4489f33f45fbf94b
+    name: koto
+    type: application
+    urls:
+    - https://github.com/yugen-bot/bots/releases/download/koto-0.1.11/koto-0.1.11.tgz
+    version: 0.1.11
+  - apiVersion: v2
+    appVersion: main
     created: "2026-08-03T20:48:07.815941646Z"
     dependencies:
     - name: common
@@ -957,6 +1052,28 @@ entries:
     - https://github.com/yugen-bot/bots/releases/download/koto-0.1.0/koto-0.1.0.tgz
     version: 0.1.0
   kusari:
+  - apiVersion: v2
+    appVersion: main
+    created: "2026-08-03T20:52:52.375343563Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.11
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 18.8.5
+    - condition: valkey.enabled
+      name: valkey
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 6.2.5
+    description: Helm chart for the kusari Discord word-chain bot
+    digest: 0f3effbe087e84d1b29e64d3264b4607cc04e5f0d64cacd6db16bed6d9a5d49d
+    name: kusari
+    type: application
+    urls:
+    - https://github.com/yugen-bot/bots/releases/download/kusari-0.1.11/kusari-0.1.11.tgz
+    version: 0.1.11
   - apiVersion: v2
     appVersion: main
     created: "2026-08-03T20:48:07.975873431Z"
@@ -1178,6 +1295,49 @@ entries:
     - https://github.com/yugen-bot/bots/releases/download/kusari-0.1.0/kusari-0.1.0.tgz
     version: 0.1.0
   yugen:
+  - apiVersion: v2
+    appVersion: main
+    created: "2026-08-03T20:52:52.592136393Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 18.8.5
+    - condition: valkey.enabled
+      name: valkey
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 6.2.5
+    - condition: hoshi.enabled
+      name: hoshi
+      repository: file://../hoshi
+      version: 0.1.11
+    - condition: iro.enabled
+      name: iro
+      repository: file://../iro
+      version: 0.1.11
+    - condition: kazu.enabled
+      name: kazu
+      repository: file://../kazu
+      version: 0.1.11
+    - condition: kusari.enabled
+      name: kusari
+      repository: file://../kusari
+      version: 0.1.11
+    - condition: koto.enabled
+      name: koto
+      repository: file://../koto
+      version: 0.1.11
+    - condition: hachimitsu.enabled
+      name: hachimitsu
+      repository: file://../hachimitsu
+      version: 0.1.11
+    description: Umbrella chart deploying the full Yugen Discord bot fleet
+    digest: 469fd7bd121f3efbdf10ffd5c825cf773569934e8f80fe08f5cc23957ccc9583
+    name: yugen
+    type: application
+    urls:
+    - https://github.com/yugen-bot/bots/releases/download/yugen-0.1.11/yugen-0.1.11.tgz
+    version: 0.1.11
   - apiVersion: v2
     appVersion: main
     created: "2026-08-03T20:48:08.200306588Z"
@@ -1608,4 +1768,4 @@ entries:
     urls:
     - https://github.com/yugen-bot/bots/releases/download/yugen-0.1.0/yugen-0.1.0.tgz
     version: 0.1.0
-generated: "2026-08-03T20:48:08.200472118Z"
+generated: "2026-08-03T20:52:52.592339303Z"
