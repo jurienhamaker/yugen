@@ -67,9 +67,9 @@ Priority mirrors common.databaseUrl:
 {{- if .Values.secrets.existingSecret -}}
 {{- /* guard: user owns the full bot secret */ -}}
 {{- else if (.Values.global).sharedInfra -}}
-{{- ((((.Values.global).postgresql).auth).existingSecret) -}}
+{{- dig "postgresql" "auth" "existingSecret" "" (.Values.global | default dict) -}}
 {{- else if (.Values.postgresql).enabled -}}
-{{- (((.Values.postgresql).auth).existingSecret) -}}
+{{- dig "auth" "existingSecret" "" (.Values.postgresql | default dict) -}}
 {{- end -}}
 {{- end }}
 
