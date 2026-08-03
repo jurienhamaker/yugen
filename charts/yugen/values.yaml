@@ -65,10 +65,11 @@ postgresql:
         create-bot-databases.sh: |
           #!/bin/bash
           set -e
+          export PGPASSWORD=$POSTGRES_POSTGRES_PASSWORD
           for DB in kazu kusari koto hachimitsu; do
-            psql -v ON_ERROR_STOP=1 --username "postgres" --password $POSTGRES_POSTGRES_PASSWORD --dbname "postgres" \
+             psql -v ON_ERROR_STOP=1 --username "postgres" --dbname "postgres" \
               -c "CREATE DATABASE \"$DB\" OWNER \"$POSTGRES_USER\";"
-            psql -v ON_ERROR_STOP=1 --username "postgres" --password $POSTGRES_POSTGRES_PASSWORD --dbname "$DB" \
+            psql -v ON_ERROR_STOP=1 --username "postgres" --dbname "$DB" \
               -c "GRANT ALL ON SCHEMA public TO \"$POSTGRES_USER\";"
           done
 
