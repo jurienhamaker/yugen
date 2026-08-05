@@ -73,6 +73,8 @@ postgresql:
                 echo "Database $DB does not exist"
                 createdb -U postgres ${DB_NAME} -O ${POSTGRES_USER}
             fi
+
+            psql -U postgres -d ${DB} -c "GRANT USAGE ON SCHEMA atlas_schema_revisions TO ${POSTGRES_USER}"
           done
 
 # ---------------------------------------------------------------------------
