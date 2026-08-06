@@ -155,12 +155,12 @@ The .Values.valkey guard ensures non-valkey bots are skipped when sharedInfra is
 */}}
 {{- define "common.valkeyUrl" -}}
 {{- if and (.Values.global).sharedInfra .Values.valkey -}}
-{{- printf "valkey://%s-valkey-master:6379/0" .Release.Name -}}
+{{- printf "valkey://%s-valkey-primary:6379/0" .Release.Name -}}
 {{- else if (.Values.valkey).enabled -}}
 {{- if ((.Values.valkey).auth).enabled -}}
-{{- printf "valkey://:%s@%s-valkey-master:6379/0" .Values.valkey.auth.password (include "common.fullname" .) -}}
+{{- printf "valkey://:%s@%s-valkey-primary:6379/0" .Values.valkey.auth.password (include "common.fullname" .) -}}
 {{- else -}}
-{{- printf "valkey://%s-valkey-master:6379/0" (include "common.fullname" .) -}}
+{{- printf "valkey://%s-valkey-primary:6379/0" (include "common.fullname" .) -}}
 {{- end -}}
 {{- end -}}
 {{- end }}
