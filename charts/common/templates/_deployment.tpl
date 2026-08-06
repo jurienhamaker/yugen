@@ -60,10 +60,14 @@ spec:
             - secretRef:
                 name: {{ include "common.secretName" . }}
           {{- $dbEnv := include "common.dbEnv" . | trim }}
-          {{- if or $dbEnv .Values.extraEnv }}
+          {{- $valkeyEnv := include "common.valkeyEnv" . | trim }}
+          {{- if or $dbEnv $valkeyEnv .Values.extraEnv }}
           env:
             {{- if $dbEnv }}
             {{- $dbEnv | nindent 12 }}
+            {{- end }}
+            {{- if $valkeyEnv }}
+            {{- $valkeyEnv | nindent 12 }}
             {{- end }}
             {{- with .Values.extraEnv }}
             {{- toYaml . | nindent 12 }}

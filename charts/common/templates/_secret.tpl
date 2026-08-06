@@ -36,9 +36,8 @@ stringData:
   {{- if $dbUrl }}
   DATABASE_URL: {{ $dbUrl | quote }}
   {{- end }}
-  {{- $valkeyUrl := include "common.valkeyUrl" . }}
-  {{- if $valkeyUrl }}
-  VALKEY_URL: {{ $valkeyUrl | quote }}
+  {{- with .Values.secrets.VALKEY_URL }}
+  VALKEY_URL: {{ . | quote }}
   {{- end }}
 {{- end }}
 {{- end }}

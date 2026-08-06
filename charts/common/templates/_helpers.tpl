@@ -148,9 +148,10 @@ baked into the chart-managed Secret — return empty for those tiers.
 {{- end }}
 
 {{/*
-VALKEY_URL for bots backed by Valkey (kusari).
-Priority: global.sharedInfra (only when bot has valkey config) → valkey.enabled (standalone) → secrets.VALKEY_URL (external).
-The .Values.valkey guard ensures non-valkey bots don't receive VALKEY_URL when sharedInfra is true.
+common.valkeyUrl: computed VALKEY_URL for bots backed by Valkey (kusari).
+Returns the URL for sharedInfra or standalone valkey cases; empty otherwise.
+External URLs (secrets.VALKEY_URL) are handled separately via the managed secret.
+The .Values.valkey guard ensures non-valkey bots are skipped when sharedInfra is true.
 */}}
 {{- define "common.valkeyUrl" -}}
 {{- if and (.Values.global).sharedInfra .Values.valkey -}}
@@ -161,7 +162,18 @@ The .Values.valkey guard ensures non-valkey bots don't receive VALKEY_URL when s
 {{- else -}}
 {{- printf "valkey://%s-valkey-master:6379/0" (include "common.fullname" .) -}}
 {{- end -}}
-{{- else -}}
-{{- .Values.secrets.VALKEY_URL | default "" -}}
+{{- end -}}
+{{- end }}
+
+{{/*
+common.valkeyEnv: renders VALKEY_URL as a direct env entry for computed cases.
+Works regardless of whether existingSecret is used.
+External valkey (secrets.VALKEY_URL) is not rendered here — it arrives via envFrom from the secret.
+*/}}
+{{- define "common.valkeyEnv" -}}
+{{- $url := include "common.valkeyUrl" . | trim }}
+{{- if $url }}
+- name: VALKEY_URL
+  value: {{ $url | quote }}
 {{- end -}}
 {{- end }}
