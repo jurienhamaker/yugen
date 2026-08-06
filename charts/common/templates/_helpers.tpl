@@ -149,10 +149,11 @@ baked into the chart-managed Secret — return empty for those tiers.
 
 {{/*
 VALKEY_URL for bots backed by Valkey (kusari).
-Priority: global.sharedInfra → valkey.enabled (standalone) → secrets.VALKEY_URL (external).
+Priority: global.sharedInfra (only when bot has valkey config) → valkey.enabled (standalone) → secrets.VALKEY_URL (external).
+The .Values.valkey guard ensures non-valkey bots don't receive VALKEY_URL when sharedInfra is true.
 */}}
 {{- define "common.valkeyUrl" -}}
-{{- if (.Values.global).sharedInfra -}}
+{{- if and (.Values.global).sharedInfra .Values.valkey -}}
 {{- printf "valkey://%s-valkey-master:6379/0" .Release.Name -}}
 {{- else if (.Values.valkey).enabled -}}
 {{- if ((.Values.valkey).auth).enabled -}}
@@ -161,6 +162,6 @@ Priority: global.sharedInfra → valkey.enabled (standalone) → secrets.VALKEY_
 {{- printf "valkey://%s-valkey-master:6379/0" (include "common.fullname" .) -}}
 {{- end -}}
 {{- else -}}
-{{- .Values.secrets.VALKEY_URL -}}
+{{- .Values.secrets.VALKEY_URL | default "" -}}
 {{- end -}}
 {{- end }}
